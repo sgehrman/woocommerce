@@ -1009,9 +1009,8 @@ class WooCommerce {
     Map<String, dynamic> data = {
       'id': itemId,
       'quantity': quantity,
-      'variation_id': variations?.first.id.toString()
     };
-    // if (variations != null) data['variations'] = variations.map((e) => {'id': e.id}).toList().toString();
+    if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
     final response = await http.post(
