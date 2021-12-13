@@ -1012,7 +1012,7 @@ class WooCommerce {
     };
     // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
     // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
-    if (variations != null) data['variations'] = variations.first.id;
+    if (variations != null) data['variations'] = variations.first.id.toString();
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
     final response = await http.post(
