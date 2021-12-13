@@ -1010,7 +1010,9 @@ class WooCommerce {
       'id': itemId,
       'quantity': quantity,
     };
-    if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
+    // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
+    // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
+    if (variations != null) data['variations'] = variations.first.id;
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
     final response = await http.post(
