@@ -1009,7 +1009,7 @@ class WooCommerce {
     Map<String, dynamic> data = {
       'id': itemId,
       'quantity': quantity,
-      'variation_id': variations?.first.id
+      'variation_id': variations?.first.id.toString()
     };
     // if (variations != null) data['variations'] = variations.map((e) => {'id': e.id}).toList().toString();
     await getAuthTokenFromDb();
