@@ -31,7 +31,7 @@
 
  */
 
-import 'package:woocommerce/utilities/price_formatter.dart';
+import 'package:woocommerce/utilities/woo_price_formatter.dart';
 
 class WooCart {
   WooCartTotals totals;
@@ -205,7 +205,7 @@ class WooCartTotals {
 
   WooCartTotals({this.totalItems, this.totalPrice, this.currencyCode, this.currencyMinorUnit});
 
-  String? get displayTotalPrice => PriceFormatter.displayPrice(totalPrice, currencyMinorUnit);
+  String? get displayTotalPrice => WooPriceFormatter.displayPrice(totalPrice, currencyMinorUnit);
 
   factory WooCartTotals.fromJson(Map<String, dynamic>? json) {
     return WooCartTotals(
@@ -253,11 +253,11 @@ class WooCartItemPrices {
     );
   }
 
-  String? get displayPrice => PriceFormatter.displayPrice(price, currencyMinorUnit);
+  String? get displayPrice => WooPriceFormatter.displayPrice(price, currencyMinorUnit);
 
-  String? get displayRegularPrice => PriceFormatter.displayPrice(regularPrice, currencyMinorUnit);
+  String? get displayRegularPrice => WooPriceFormatter.displayPrice(regularPrice, currencyMinorUnit);
 
-  String? get displaySalePrice => PriceFormatter.displayPrice(salePrice, currencyMinorUnit);
+  String? get displaySalePrice => WooPriceFormatter.displayPrice(salePrice, currencyMinorUnit);
 }
 
 class WooCartItemTotals {
@@ -277,7 +277,7 @@ class WooCartItemTotals {
     );
   }
 
-  String? get displayLineTotal => PriceFormatter.displayPrice(lineTotal, currencyMinorUnit);
+  String? get displayLineTotal => WooPriceFormatter.displayPrice(lineTotal, currencyMinorUnit);
 
-  String? get displayLineSubtotal => PriceFormatter.displayPrice(lineSubtotal, currencyMinorUnit);
+  String? get displayLineSubtotal => WooPriceFormatter.displayPrice(lineSubtotal, currencyMinorUnit);
 }

@@ -1,7 +1,7 @@
 
 import 'dart:math';
 
-class PriceFormatter {
+class WooPriceFormatter {
   static String? displayPrice(int? price, int? decimalUnit) {
     if (price != null) {
       final minorUnit = decimalUnit ?? 0;
