@@ -32,43 +32,53 @@
  */
 
 class WooCart {
-  String? currency;
+  WooCartTotals totals;
   int? itemCount;
-  List<WooCartItems>? items;
+  List<WooCartItems> items;
   bool? needsShipping;
+  bool? needsPayment;
+  bool? hasCalculatedShipping;
   String? totalPrice;
   int? totalWeight;
 
   WooCart(
-      {this.currency,
+      {required this.totals,
       this.itemCount,
-      this.items,
+      required this.items,
       this.needsShipping,
+      this.needsPayment,
+      this.hasCalculatedShipping,
       this.totalPrice,
       this.totalWeight});
 
-  WooCart.fromJson(Map<String, dynamic> json) {
-    currency = json['currency'];
-    itemCount = json['item_count'];
+  factory WooCart.fromJson(Map<String, dynamic> json) {
+    final items = <WooCartItems>[];
     if (json['items'] != null) {
-      items = <WooCartItems>[];
       json['items'].forEach((v) {
-        items!.add(new WooCartItems.fromJson(v));
+        items.add(new WooCartItems.fromJson(v));
       });
     }
-    needsShipping = json['needs_shipping'];
-    totalPrice = json['total_price'].toString();
-    totalWeight = json['total_weight'];
+
+    return WooCart(
+      totals: WooCartTotals.fromJson(json['totals']),
+      items: items,
+      itemCount: json['items_count'],
+      needsShipping: json['needs_shipping'],
+      needsPayment: json['needs_payment'],
+      hasCalculatedShipping: json['has_calculated_shipping'],
+      totalPrice: json['total_price'].toString(),
+      totalWeight: json['total_weight'],
+    );
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['currency'] = this.currency;
-    data['item_count'] = this.itemCount;
-    if (this.items != null) {
-      data['items'] = this.items!.map((v) => v.toJson()).toList();
-    }
+    data['totals'] = this.totals;
+    data['items_count'] = this.itemCount;
+    data['items'] = this.items.map((v) => v.toJson()).toList();
     data['needs_shipping'] = this.needsShipping;
+    data['needs_payment'] = this.needsPayment;
+    data['has_calculated_shipping'] = this.hasCalculatedShipping;
     data['total_price'] = this.totalPrice;
     data['total_weight'] = this.totalWeight;
     return data;
@@ -82,18 +92,22 @@ class WooCartItems {
   String? key;
   int? id;
   int? quantity;
+  int? quantityLimit;
   String? name;
   String? sku;
   String? permalink;
   List<WooCartImages>? images;
   String? price;
+  WooCartItemPrices? prices;
+  WooCartItemTotals? totals;
   String? linePrice;
-  List<String>? variation;
+  List<WooCartItemAttributes>? variation;
 
   WooCartItems(
       {this.key,
       this.id,
       this.quantity,
+      this.quantityLimit,
       this.name,
       this.sku,
       this.permalink,
@@ -106,6 +120,7 @@ class WooCartItems {
     key = json['key'];
     id = json['id'];
     quantity = json['quantity'];
+    quantityLimit = json['quantity_limit'];
     name = json['name'];
     sku = json['sku'];
     permalink = json['permalink'];
@@ -116,8 +131,16 @@ class WooCartItems {
       });
     }
     price = json['price'];
+    prices = WooCartItemPrices.fromJson(json['prices']);
+    totals = WooCartItemTotals.fromJson(json['totals']);
     linePrice = json['line_price'];
-    variation = json['variation'].cast<String>();
+
+    if (json['variation'] != null) {
+      variation = <WooCartItemAttributes>[];
+      json['variation'].forEach((v) {
+        variation!.add(new WooCartItemAttributes.fromJson(v));
+      });
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -147,14 +170,7 @@ class WooCartImages {
   String? name;
   String? alt;
 
-  WooCartImages(
-      {this.id,
-      this.src,
-      this.thumbnail,
-      this.srcset,
-      this.sizes,
-      this.name,
-      this.alt});
+  WooCartImages({this.id, this.src, this.thumbnail, this.srcset, this.sizes, this.name, this.alt});
 
   WooCartImages.fromJson(Map<String, dynamic> json) {
     id = json['id'].toString();
@@ -176,5 +192,82 @@ class WooCartImages {
     data['name'] = this.name;
     data['alt'] = this.alt;
     return data;
+  }
+}
+
+class WooCartTotals {
+  String? totalItems;
+  String? totalPrice;
+  String? currencyCode;
+  int? currencyMinorUnit;
+
+  WooCartTotals({this.totalItems, this.totalPrice, this.currencyCode, this.currencyMinorUnit});
+
+  factory WooCartTotals.fromJson(Map<String, dynamic>? json) {
+    return WooCartTotals(
+      totalItems: json?['total_items'],
+      totalPrice: json?['total_price'],
+      currencyCode: json?['currency_code'],
+      currencyMinorUnit: json?['currency_minor_unit'],
+    );
+  }
+}
+
+class WooCartItemAttributes {
+  final String? attribute;
+  final String? value;
+
+  WooCartItemAttributes({
+    required this.attribute,
+    required this.value,
+  });
+
+  factory WooCartItemAttributes.fromJson(Map<String, dynamic>? json) {
+    return WooCartItemAttributes(
+      attribute: json?['attribute'],
+      value: json?['value'],
+    );
+  }
+}
+
+class WooCartItemPrices {
+  final String? price;
+  final String? regularPrice;
+  final String? salePrice;
+  final String? currencyCode;
+  final int? currencyMinorUnit;
+
+
+  WooCartItemPrices({this.price, this.regularPrice, this.salePrice, this.currencyCode, this.currencyMinorUnit});
+
+  factory WooCartItemPrices.fromJson(Map<String, dynamic>? json) {
+    return WooCartItemPrices(
+      price: json?['price'],
+      regularPrice: json?['regular_price'],
+      salePrice: json?['sale_price'],
+      currencyCode: json?['currency_code'],
+      currencyMinorUnit: json?['currency_minor_unit'],
+    );
+  }
+}
+
+class WooCartItemTotals {
+  final String? lineSubtotal;
+  final String? lineTotal;
+  final String? salePrice;
+  final String? currencyCode;
+  final int? currencyMinorUnit;
+
+
+  WooCartItemTotals({this.lineSubtotal, this.lineTotal, this.salePrice, this.currencyCode, this.currencyMinorUnit});
+
+  factory WooCartItemTotals.fromJson(Map<String, dynamic>? json) {
+    return WooCartItemTotals(
+      lineSubtotal: json?['line_subtotal'],
+      lineTotal: json?['line_total'],
+      salePrice: json?['sale_price'],
+      currencyCode: json?['currency_code'],
+      currencyMinorUnit: json?['currency_minor_unit'],
+    );
   }
 }
