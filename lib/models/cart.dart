@@ -31,6 +31,8 @@
 
  */
 
+import 'package:woocommerce/utilities/price_formatter.dart';
+
 class WooCart {
   WooCartTotals totals;
   int? itemCount;
@@ -196,17 +198,19 @@ class WooCartImages {
 }
 
 class WooCartTotals {
-  String? totalItems;
-  String? totalPrice;
+  int? totalItems;
+  int? totalPrice;
   String? currencyCode;
   int? currencyMinorUnit;
 
   WooCartTotals({this.totalItems, this.totalPrice, this.currencyCode, this.currencyMinorUnit});
 
+  String? get displayTotalPrice => PriceFormatter.displayPrice(totalPrice, currencyMinorUnit);
+
   factory WooCartTotals.fromJson(Map<String, dynamic>? json) {
     return WooCartTotals(
-      totalItems: json?['total_items'],
-      totalPrice: json?['total_price'],
+      totalItems: int.tryParse(json?['total_items']),
+      totalPrice: int.tryParse(json?['total_price']),
       currencyCode: json?['currency_code'],
       currencyMinorUnit: json?['currency_minor_unit'],
     );
@@ -231,43 +235,49 @@ class WooCartItemAttributes {
 }
 
 class WooCartItemPrices {
-  final String? price;
-  final String? regularPrice;
-  final String? salePrice;
+  final int? price;
+  final int? regularPrice;
+  final int? salePrice;
   final String? currencyCode;
   final int? currencyMinorUnit;
-
 
   WooCartItemPrices({this.price, this.regularPrice, this.salePrice, this.currencyCode, this.currencyMinorUnit});
 
   factory WooCartItemPrices.fromJson(Map<String, dynamic>? json) {
     return WooCartItemPrices(
-      price: json?['price'],
-      regularPrice: json?['regular_price'],
-      salePrice: json?['sale_price'],
+      price: int.tryParse(json?['price']),
+      regularPrice: int.tryParse(json?['regular_price']),
+      salePrice: int.tryParse(json?['sale_price']),
       currencyCode: json?['currency_code'],
       currencyMinorUnit: json?['currency_minor_unit'],
     );
   }
+
+  String? get displayPrice => PriceFormatter.displayPrice(price, currencyMinorUnit);
+
+  String? get displayRegularPrice => PriceFormatter.displayPrice(regularPrice, currencyMinorUnit);
+
+  String? get displaySalePrice => PriceFormatter.displayPrice(salePrice, currencyMinorUnit);
 }
 
 class WooCartItemTotals {
-  final String? lineSubtotal;
-  final String? lineTotal;
-  final String? salePrice;
+  final int? lineSubtotal;
+  final int? lineTotal;
   final String? currencyCode;
   final int? currencyMinorUnit;
 
-
-  WooCartItemTotals({this.lineSubtotal, this.lineTotal, this.salePrice, this.currencyCode, this.currencyMinorUnit});
+  WooCartItemTotals({this.lineSubtotal, this.lineTotal, this.currencyCode, this.currencyMinorUnit});
 
   factory WooCartItemTotals.fromJson(Map<String, dynamic>? json) {
     return WooCartItemTotals(
-      lineSubtotal: json?['line_subtotal'],
-      lineTotal: json?['line_total'],
-      salePrice: json?['sale_price'],
+      lineSubtotal: int.tryParse(json?['line_subtotal']),
+      lineTotal: int.tryParse(json?['line_total']),
       currencyCode: json?['currency_code'],
       currencyMinorUnit: json?['currency_minor_unit'],
     );
   }
+
+  String? get displayLineTotal => PriceFormatter.displayPrice(lineTotal, currencyMinorUnit);
+
+  String? get displayLineSubtotal => PriceFormatter.displayPrice(lineSubtotal, currencyMinorUnit);
 }
