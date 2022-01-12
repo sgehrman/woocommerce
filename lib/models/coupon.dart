@@ -95,10 +95,10 @@ class WooCoupon {
     id = json['id'];
     code = json['code'];
     amount = json['amount'];
-    dateCreated = json['date_created'];
-    dateCreatedGmt = json['date_created_gmt'];
-    dateModified = json['date_modified'];
-    dateModifiedGmt = json['date_modified_gmt'];
+    dateCreated = DateTime.tryParse(json['date_created']);
+    dateCreatedGmt = DateTime.tryParse(json['date_created_gmt']);
+    dateModified = DateTime.tryParse(json['date_modified']);
+    dateModifiedGmt = DateTime.tryParse(json['date_modified_gmt']);
     discountType = json['discount_type'];
     description = json['description'];
     dateExpires = json['date_expires'];
