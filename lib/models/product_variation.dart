@@ -125,10 +125,7 @@ class WooProductVariation {
         onSale = json['on_sale'],
         purchasable = json['purchasable'],
         virtual = json['virtual'],
-        downloadable = json['downloadable'],
-        downloads = (json['downloads'] as List)
-            .map((i) => WooProductVariationDownload.fromJson(i))
-            .toList(),
+        downloadable = json['downloadable'], downloads = (json['downloads'] as List).map((i) => WooProductVariationDownload.fromJson(i)).toList(),
         downloadLimit = json['download_limit'],
         downloadExpiry = json['download_expiry'],
         taxStatus = json['tax_status'],
@@ -144,12 +141,13 @@ class WooProductVariation {
         shippingClass = json['shipping_class'],
         shippingClassId = json['shipping_class_id'],
         menuOrder = json['menu_order'],
-        attributes = (json['attributes'] as List)
-            .map((i) => WooProductVariationAttribute.fromJson(i))
-            .toList(),
-        metaData = (json['meta_data'] as List)
-            .map((i) => WooProductVariationMetaData.fromJson(i))
-            .toList();
+        attributes = (json['attributes'] as List).map((i) => WooProductVariationAttribute.fromJson(i)).toList(),
+        metaData = (json['meta_data'] as List).map((i) => WooProductVariationMetaData.fromJson(i)).toList();
+
+  Map<String, dynamic> toJson() => {
+        'id': this.id,
+        'attributes': this.attributes.map((e) => e.toJson()),
+      };
 }
 
 class WooProductVariationMetaData {
@@ -198,8 +196,7 @@ class WooProductVariationDimension {
         width = json['width'],
         height = json['height'];
 
-  Map<String, dynamic> toJson() =>
-      {'length': length, 'width': width, 'height': height};
+  Map<String, dynamic> toJson() => {'length': length, 'width': width, 'height': height};
 }
 
 class WooProductVariationAttribute {
@@ -250,8 +247,8 @@ class WooProductVariationImage {
   final String? name;
   final String? alt;
 
-  WooProductVariationImage(this.id, this.src, this.name, this.alt, this.dateCreated,
-      this.dateCreatedGMT, this.dateModified, this.dateModifiedGMT);
+  WooProductVariationImage(this.id, this.src, this.name, this.alt, this.dateCreated, this.dateCreatedGMT,
+      this.dateModified, this.dateModifiedGMT);
 
   WooProductVariationImage.fromJson(Map<String, dynamic> json)
       : id = json['id'],

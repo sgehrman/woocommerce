@@ -1010,7 +1010,9 @@ class WooCommerce {
       'id': itemId,
       'quantity': quantity,
     };
-    if (variations != null) data['variations'] = variations;
+    // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
+    // if (variations != null) data['variations'] = variations.map((e) => e.toJson()).toList().toString();
+    if (variations != null) data['variations'] = variations.first.id.toString();
     await getAuthTokenFromDb();
     _urlHeader['Authorization'] = 'Bearer ' + _authToken!;
     final response = await http.post(
@@ -1335,7 +1337,7 @@ class WooCommerce {
   /// Returns a list of all [WooCoupon], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#coupons
-  Future<List<WooCoupon>?> getCoupons({
+  Future<List<WooCoupon>> getCoupons({
     int? page,
     int? perPage,
     String? search,
@@ -1358,14 +1360,14 @@ class WooCommerce {
     }).forEach((k, v) {
       if (v != null) payload[k] = v.toString();
     });
-    List<WooCoupon>? coupons;
+    List<WooCoupon> coupons = [];
     _printToLog('Getting Coupons With Payload : ' + payload.toString());
     _setApiResourceUrl(path: 'coupons', queryParameters: payload);
     final response = await get(queryUri.toString());
     for (var c in response) {
       var coupon = WooCoupon.fromJson(c);
       _printToLog('prod gotten here : ' + order.toString());
-      coupons!.add(coupon);
+      coupons.add(coupon);
     }
     return coupons;
   }

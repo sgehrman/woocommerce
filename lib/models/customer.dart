@@ -80,16 +80,11 @@ class WooCustomer {
     lastName = json['last_name'];
     role = json['role'];
     username = json['username'];
-    billing =
-        json['billing'] != null ? new Billing.fromJson(json['billing']) : null;
-    shipping = json['shipping'] != null
-        ? new Shipping.fromJson(json['shipping'])
-        : null;
+    billing = json['billing'] != null ? Billing.fromJson(json['billing']) : null;
+    shipping = json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
     isPayingCustomer = json['is_paying_customer'];
     avatarUrl = json['avatar_url'];
-    metaData = (json['meta_data'] as List)
-        .map((i) => WooCustomerMetaData.fromJson(i))
-        .toList();
+    metaData = (json['meta_data'] as List).map((i) => WooCustomerMetaData.fromJson(i)).toList();
     links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
   }
 
@@ -184,18 +179,44 @@ class Billing {
       this.email,
       this.phone});
 
-  Billing.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    company = json['company'];
-    address1 = json['address_1'];
-    address2 = json['address_2'];
-    city = json['city'];
-    state = json['state'];
-    postcode = json['postcode'];
-    country = json['country'];
-    email = json['email'];
-    phone = json['phone'];
+  static Billing? fromJson(Map<String, dynamic> json) {
+    final firstName = parseField(json['first_name']);
+    final lastName = parseField(json['last_name']);
+    final company = parseField(json['company']);
+    final address1 = parseField(json['address_1']);
+    final address2 = parseField(json['address_2']);
+    final city = parseField(json['city']);
+    final state = parseField(json['state']);
+    final postcode = parseField(json['postcode']);
+    final country = parseField(json['country']);
+    final email = parseField(json['email']);
+    final phone = parseField(json['phone']);
+
+    if (firstName == null &&
+        lastName == null &&
+        company == null &&
+        address1 == null &&
+        address2 == null &&
+        city == null &&
+        postcode == null &&
+        state == null &&
+        country == null &&
+        email == null &&
+        phone == null) return null;
+
+    return Billing(
+      firstName: firstName,
+      lastName: lastName,
+      company: company,
+      address1: address1,
+      address2: address2,
+      city: city,
+      state: state,
+      country: country,
+      postcode: postcode,
+      phone: phone,
+      email: email,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -237,16 +258,38 @@ class Shipping {
       this.postcode,
       this.country});
 
-  Shipping.fromJson(Map<String, dynamic> json) {
-    firstName = json['first_name'] ?? "";
-    lastName = json['last_name'] ?? "";
-    company = json['company'] ?? "";
-    address1 = json['address_1'] ?? "";
-    address2 = json['address_2'] ?? "";
-    city = json['city'] ?? "";
-    state = json['state'] ?? "";
-    postcode = json['postcode'] ?? "";
-    country = json['country'] ?? "";
+  static Shipping? fromJson(Map<String, dynamic> json) {
+    final firstName = parseField(json['first_name']);
+    final lastName = parseField(json['last_name']);
+    final company = parseField(json['company']);
+    final address1 = parseField(json['address_1']);
+    final address2 = parseField(json['address_2']);
+    final city = parseField(json['city']);
+    final state = parseField(json['state']);
+    final postcode = parseField(json['postcode']);
+    final country = parseField(json['country']);
+
+    if (firstName == null &&
+        lastName == null &&
+        company == null &&
+        address1 == null &&
+        address2 == null &&
+        city == null &&
+        postcode == null &&
+        state == null &&
+        country == null) return null;
+
+    return Shipping(
+      firstName: firstName,
+      lastName: lastName,
+      company: company,
+      address1: address1,
+      address2: address2,
+      city: city,
+      state: state,
+      country: country,
+      postcode: postcode,
+    );
   }
 
   Map<String, dynamic> toJson() {
@@ -326,5 +369,13 @@ class Collection {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['href'] = this.href;
     return data;
+  }
+}
+
+String? parseField(String? field) {
+  if (field != null && field.isNotEmpty) {
+    return field;
+  } else {
+    return null;
   }
 }

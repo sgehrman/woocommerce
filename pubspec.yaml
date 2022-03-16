@@ -1,6 +1,6 @@
 name: woocommerce
 description: Woocommerce SDK for Flutter. The Complete Woo Commerce SDK for building Flutter Ecommerce Applications with amazing features.
-version: 1.0.0
+version: 1.0.1
 author: Ray Okaah<ray@flutterengineer.com>
 homepage: https://github.com/RayOkaah/woocommerce.git
 
@@ -12,11 +12,12 @@ dependencies:
     sdk: flutter
   http: ^0.13.1
   crypto: ^3.0.1
-  flutter_secure_storage: ^4.2.0
+  flutter_secure_storage: ^5.0.2
 
 dev_dependencies:
-  flutter_test:
-    sdk: flutter
+  test: ^1.20.1
+#  flutter_test:
+#    sdk: flutter
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
