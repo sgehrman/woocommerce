@@ -39,4 +39,4 @@ const URL_WP_BASE = '/wp-json/wp/v2';
 const URL_USER_ME = '$URL_WP_BASE/users/me';
 const URL_USER_SEARCH = '$URL_WP_BASE/users';
 const URL_REGISTER_ENDPOINT = '$URL_WP_BASE/users/register';
-const URL_APP_PASS = 'wp-json/abs/v1/onetimepassword';
+const URL_APP_PASS = '/wp-json/abs/v1/onetimepassword';
