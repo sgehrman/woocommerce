@@ -245,6 +245,46 @@ class WooCommerce {
     }
   }
 
+  /// Fetches arbitrary user
+  ///
+  /// Associated endpoint : /wp-json/wp/v2/users/?search
+  Future<int?> fetchUser(String email) async {
+    final response = await http.get(
+      Uri.parse(this.baseUrl + URL_USER_SEARCH + '?search=$email'),
+    );
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      if (jsonStr.length == 0) throw new WooCommerceError();
+      _printToLog('account user fetch : ' + jsonStr.toString());
+      return jsonStr.first['id'];
+    } else {
+      WooCommerceError err =
+          WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+  }
+
+  /// Get application password
+  ///
+  /// Associated endpoint : /wp-json/abs/v1/onetimepassword
+  Future<String?> getApplicationPassword(int userId) async {
+    final response = await http.get(
+      Uri.parse(this.baseUrl + URL_APP_PASS + '?userid=$userId&appname=mobile'),
+    );
+
+    if (response.statusCode >= 200 && response.statusCode < 300) {
+      final jsonStr = json.decode(response.body);
+      if (jsonStr.length == 0) throw new WooCommerceError();
+      _printToLog('application password fetch : ' + jsonStr.toString());
+      return jsonStr;
+    } else {
+      WooCommerceError err =
+          WooCommerceError.fromJson(json.decode(response.body));
+      throw err;
+    }
+  }
+
   /// Log User out
   ///
   logUserOut() async {
