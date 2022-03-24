@@ -708,6 +708,13 @@ class WooCommerce {
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-categories
 
+  Future<List<dynamic>> getStoreSettings() async {
+    _setApiResourceUrl(path: 'settings/general');
+    _printToLog('this is the path : ' + this.apiPath);
+
+    return await get(queryUri.toString());
+  }
+
   Future<List<WooProductCategory>> getProductCategories(
       {int? page,
       int? perPage,
@@ -718,7 +725,7 @@ class WooCommerce {
       int? parent,
       int? product,
       String? slug}) async {
-    final productCategoriesV2 = await getProductCategoriesV2(
+    final productCategoriesV2 = await _getProductCategoriesV2(
       page: page,
       perPage: perPage,
       search: search,
@@ -730,7 +737,7 @@ class WooCommerce {
       slug: slug,
     );
 
-    final productCategoriesV3 = await getProductCategoriesV3(
+    final productCategoriesV3 = await _getProductCategoriesV3(
       page: page,
       perPage: perPage,
       search: search,
@@ -750,7 +757,7 @@ class WooCommerce {
     return productCategoriesV3;
   }
 
-  Future<List<WooProductCategory>> getProductCategoriesV2(
+  Future<List<WooProductCategory>> _getProductCategoriesV2(
       {int? page,
       int? perPage,
       String? search,
@@ -789,7 +796,7 @@ class WooCommerce {
     return productCategories;
   }
 
-  Future<List<WooProductCategory>> getProductCategoriesV3(
+  Future<List<WooProductCategory>> _getProductCategoriesV3(
       {int? page,
       int? perPage,
       String? search,
