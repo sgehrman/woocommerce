@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
-String baseUrl = "";
-String consumerKey = "";
-String consumerSecret = "";
+String baseUrl = "https://store-dev.absglobal.com/br";
+String consumerKey = "put_woo_key_here";
+String consumerSecret = "put_woo_secret_here";
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, this.title}) : super(key: key);
