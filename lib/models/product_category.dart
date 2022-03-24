@@ -40,7 +40,7 @@ class WooProductCategory {
   int? parent;
   String? description;
   String? display;
-  WooProductAcf? acf;
+  Map<String, dynamic>? acf;
   WooProductCategoryImage? image;
   int? menuOrder;
   int? count;
@@ -66,7 +66,7 @@ class WooProductCategory {
     description = json['description'];
     display = json['display'];
     image = json['image'] != null ? new WooProductCategoryImage.fromJson(json['image']) : null;
-    acf = json['acf'] != null ? WooProductAcf.fromJson(json['acf']) : null;
+    acf = json['acf'] ?? {};
     menuOrder = json['menu_order'];
     count = json['count'];
     links = json['_links'] != null ? new WooProductCategoryLinks.fromJson(json['_links']) : null;
@@ -94,17 +94,6 @@ class WooProductCategory {
   @override
   toString() => this.toJson().toString();
 }
-
-class WooProductAcf {
-  CategoryTypeMobile? categoryTypeMobile;
-
-  WooProductAcf.fromJson(Map<String, dynamic> json) {
-    final String? fieldCTM = json['category_type_mobile']?.toString();
-    categoryTypeMobile = CategoryTypeMobile.values.firstWhereOrNull((element) => element.name == fieldCTM);
-  }
-}
-
-enum CategoryTypeMobile { semen, supplies }
 
 class WooProductCategoryImage {
   int? id;
