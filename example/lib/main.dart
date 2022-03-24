@@ -17,9 +17,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
-String baseUrl = "https://store-dev.absglobal.com/br";
-String consumerKey = "put_woo_key_here";
-String consumerSecret = "put_woo_secret_here";
+String baseUrl = '';
+String consumerKey = '';
+String consumerSecret = '';
 
 class MyHomePage extends StatefulWidget {
   MyHomePage({Key? key, this.title}) : super(key: key);
@@ -44,6 +44,9 @@ class _MyHomePageState extends State<MyHomePage> {
     products = await wooCommerce.getProducts();
     setState(() {});
     print(products.toString());
+
+    final categories = await wooCommerce.getProductCategories();
+    categories.toString();
   }
 
   @override
