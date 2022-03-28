@@ -31,6 +31,8 @@
 
  */
 
+import 'package:collection/collection.dart';
+
 class WooProductCategory {
   int? id;
   String? name;
@@ -38,6 +40,7 @@ class WooProductCategory {
   int? parent;
   String? description;
   String? display;
+  Map<String, dynamic>? acf;
   WooProductCategoryImage? image;
   int? menuOrder;
   int? count;
@@ -62,14 +65,11 @@ class WooProductCategory {
     parent = json['parent'];
     description = json['description'];
     display = json['display'];
-    image = json['image'] != null
-        ? new WooProductCategoryImage.fromJson(json['image'])
-        : null;
+    image = json['image'] != null ? new WooProductCategoryImage.fromJson(json['image']) : null;
+    acf = json['acf'] ?? {};
     menuOrder = json['menu_order'];
     count = json['count'];
-    links = json['_links'] != null
-        ? new WooProductCategoryLinks.fromJson(json['_links'])
-        : null;
+    links = json['_links'] != null ? new WooProductCategoryLinks.fromJson(json['_links']) : null;
   }
 
   Map<String, dynamic> toJson() {
