@@ -244,41 +244,25 @@ class WooCommerce {
     }
   }
 
-  /// Fetches arbitrary user
+  /// Fetch security token
   ///
-  /// Associated endpoint : /wp-json/wp/v2/users/?search
-  Future<int?> fetchUser(String email) async {
+  /// Associated endpoint : /wp-json/abs/v1/authenticatecart
+  Future authenticateWithToken(String authToken) async {
     final response = await http.get(
-      Uri.parse(this.baseUrl + URL_USER_SEARCH + '?search=$email'),
+      Uri.parse(this.baseUrl + URL_TOKEN + '?id_token=$authToken&appname=mobileapp'),
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
-      if (jsonStr.length == 0) throw new WooCommerceError();
-      _printToLog('account user fetch : ' + jsonStr.toString());
-      return jsonStr.first['id'];
+      try {
+        final token = json.decode(response.body) as String;
+        _authToken = token;
+        _localDbService.updateSecurityToken(_authToken);
+        _urlHeader['Authorization'] = 'Bearer $_authToken';
+      } catch (e) {
+        throw WooCommerceError.fromJson(json.decode(response.body));
+      }
     } else {
-      WooCommerceError err = WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
-    }
-  }
-
-  /// Get application password
-  ///
-  /// Associated endpoint : /wp-json/abs/v1/onetimepassword
-  Future<String?> getApplicationPassword(int userId) async {
-    final response = await http.get(
-      Uri.parse(this.baseUrl + URL_APP_PASS + '?userid=$userId&appname=mobile'),
-    );
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
-      if (jsonStr.length == 0) throw new WooCommerceError();
-      _printToLog('application password fetch : ' + jsonStr.toString());
-      return jsonStr;
-    } else {
-      WooCommerceError err = WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw new WooCommerceError.fromJson(json.decode(response.body));
     }
   }
 
