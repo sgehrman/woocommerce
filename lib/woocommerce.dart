@@ -247,7 +247,7 @@ class WooCommerce {
   /// Fetch security token
   ///
   /// Associated endpoint : /wp-json/abs/v1/authenticatecart
-  Future authenticateWithToken(String authToken) async {
+  Future<String> authenticateWithToken(String authToken) async {
     final response = await http.get(
       Uri.parse(this.baseUrl + URL_TOKEN + '?id_token=$authToken&appname=mobileapp'),
     );
@@ -258,6 +258,7 @@ class WooCommerce {
         _authToken = token;
         _localDbService.updateSecurityToken(_authToken);
         _urlHeader['Authorization'] = 'Bearer $_authToken';
+        return token;
       } catch (e) {
         throw WooCommerceError.fromJson(json.decode(response.body));
       }
