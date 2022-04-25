@@ -270,6 +270,8 @@ class WooCommerce {
   /// Log User out
   ///
   logUserOut() async {
+    _authToken = '';
+    _urlHeader.remove('Authorization');
     await _localDbService.deleteSecurityToken();
   }
 
