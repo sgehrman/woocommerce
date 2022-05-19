@@ -1634,6 +1634,20 @@ class WooCommerce {
     return WooPaymentGateway.fromJson(response);
   }
 
+  /// Returns a listed JSON with discount rules [WooCustomerDownload], with filter options.
+  ///
+  /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#customers
+  Future<List<Map<String, dynamic>>> getDiscountRules({required int customerId}) async {
+    String url = this.baseUrl + URL_DISCOUNT_RULES;
+
+    http.Request request = http.Request('GET', Uri.parse(url));
+    http.Client client = http.Client();
+    String response = await client.send(request).then((res) => res.stream.bytesToString());
+    final dataResponse = await json.decode(response);
+    _handleError(dataResponse);
+    return dataResponse;
+  }
+
   /// This Generates a valid OAuth 1.0 URL
   ///
   /// if [isHttps] is true we just return the URL with
