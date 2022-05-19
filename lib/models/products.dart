@@ -369,7 +369,7 @@ class WooProductItemAttribute {
         position = json['position'],
         visible = json['visible'],
         variation = json['variation'],
-        options = json['options'].cast<String>();
+        options = json['options']?.cast<String>();
 
   Map<String, dynamic> toJson() => {
         'id': id,

@@ -31,6 +31,9 @@
 
  */
 
+
+import 'package:collection/collection.dart';
+
 class WooProductVariation {
   int? id;
   DateTime? dateCreated;
@@ -71,6 +74,7 @@ class WooProductVariation {
   WooProductVariationDimension dimensions;
   List<WooProductVariationMetaData> metaData;
   WooProductVariationImage? image;
+  int? parentId;
 
   WooProductVariation(
       this.id,
@@ -111,7 +115,8 @@ class WooProductVariation {
       this.menuOrder,
       this.dimensions,
       this.metaData,
-      this.image);
+      this.image,
+      this.parentId);
 
   WooProductVariation.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -142,7 +147,8 @@ class WooProductVariation {
         shippingClassId = json['shipping_class_id'],
         menuOrder = json['menu_order'],
         attributes = (json['attributes'] as List).map((i) => WooProductVariationAttribute.fromJson(i)).toList(),
-        metaData = (json['meta_data'] as List).map((i) => WooProductVariationMetaData.fromJson(i)).toList();
+        metaData = (json['meta_data'] as List).map((i) => WooProductVariationMetaData.fromJson(i)).toList(),
+        parentId = int.tryParse(Uri.parse((json['_links']?['up'] as List?)?.firstOrNull?['href']).pathSegments.lastOrNull ?? '');
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
