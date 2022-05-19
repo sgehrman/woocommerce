@@ -1642,7 +1642,6 @@ class WooCommerce {
     http.Client client = http.Client();
     String response = await client.send(request).then((res) => res.stream.bytesToString());
     final dataResponse = await json.decode(response);
-    _handleError(dataResponse);
     return dataResponse;
   }
 
