@@ -1635,7 +1635,7 @@ class WooCommerce {
   }
 
   /// Returns a listed JSON with discount rules
-  Future<List<Map<String, dynamic>>> getDiscountRules() async {
+  Future<dynamic> getDiscountRules() async {
     String url = this.baseUrl + URL_DISCOUNT_RULES;
 
     http.Request request = http.Request('GET', Uri.parse(url));
