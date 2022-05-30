@@ -35,7 +35,6 @@
 
 library woocommerce;
 
-import 'dart:async';
 import "dart:collection";
 import 'dart:convert';
 import 'dart:io';
@@ -244,47 +243,34 @@ class WooCommerce {
     }
   }
 
-  /// Fetches arbitrary user
+  /// Fetch security token
   ///
-  /// Associated endpoint : /wp-json/wp/v2/users/?search
-  Future<int?> fetchUser(String email) async {
+  /// Associated endpoint : /wp-json/abs/v1/authenticatecart
+  Future<String> authenticateWithToken(String authToken) async {
     final response = await http.get(
-      Uri.parse(this.baseUrl + URL_USER_SEARCH + '?search=$email'),
+      Uri.parse(this.baseUrl + URL_TOKEN + '?id_token=$authToken&appname=mobileapp'),
     );
 
     if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
-      if (jsonStr.length == 0) throw new WooCommerceError();
-      _printToLog('account user fetch : ' + jsonStr.toString());
-      return jsonStr.first['id'];
+      try {
+        final token = json.decode(response.body) as String;
+        _authToken = token;
+        _localDbService.updateSecurityToken(_authToken);
+        _urlHeader['Authorization'] = 'Bearer $_authToken';
+        return token;
+      } catch (e) {
+        throw WooCommerceError.fromJson(json.decode(response.body));
+      }
     } else {
-      WooCommerceError err = WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
-    }
-  }
-
-  /// Get application password
-  ///
-  /// Associated endpoint : /wp-json/abs/v1/onetimepassword
-  Future<String?> getApplicationPassword(int userId) async {
-    final response = await http.get(
-      Uri.parse(this.baseUrl + URL_APP_PASS + '?userid=$userId&appname=mobile'),
-    );
-
-    if (response.statusCode >= 200 && response.statusCode < 300) {
-      final jsonStr = json.decode(response.body);
-      if (jsonStr.length == 0) throw new WooCommerceError();
-      _printToLog('application password fetch : ' + jsonStr.toString());
-      return jsonStr;
-    } else {
-      WooCommerceError err = WooCommerceError.fromJson(json.decode(response.body));
-      throw err;
+      throw new WooCommerceError.fromJson(json.decode(response.body));
     }
   }
 
   /// Log User out
   ///
   logUserOut() async {
+    _authToken = '';
+    _urlHeader.remove('Authorization');
     await _localDbService.deleteSecurityToken();
   }
 
@@ -1646,6 +1632,17 @@ class WooCommerce {
     );
     final response = await put(queryUri.toString(), gateway.toJson());
     return WooPaymentGateway.fromJson(response);
+  }
+
+  /// Returns a listed JSON with discount rules
+  Future<dynamic> getDiscountRules() async {
+    String url = this.baseUrl + URL_DISCOUNT_RULES;
+
+    http.Request request = http.Request('GET', Uri.parse(url));
+    http.Client client = http.Client();
+    String response = await client.send(request).then((res) => res.stream.bytesToString());
+    final dataResponse = await json.decode(response);
+    return dataResponse;
   }
 
   /// This Generates a valid OAuth 1.0 URL

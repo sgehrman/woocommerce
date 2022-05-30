@@ -40,4 +40,6 @@ const URL_WP_API_PATH = '$URL_WP_BASE/';
 const URL_USER_ME = '$URL_WP_BASE/users/me';
 const URL_USER_SEARCH = '$URL_WP_BASE/users';
 const URL_REGISTER_ENDPOINT = '$URL_WP_BASE/users/register';
-const URL_APP_PASS = '/wp-json/abs/v1/onetimepassword';
+const URL_TOKEN = '/wp-json/abs/v1/authenticatecart';
+const URL_DISCOUNT_RULES = '/wp-json/abs/v1/discountrules/';
+
