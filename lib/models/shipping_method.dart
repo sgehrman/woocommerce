@@ -32,37 +32,23 @@
  */
 
 class WooShippingMethod {
-  int? parentId;
-  String? name;
-  List<WooShippingMethodLocations>? locations;
-  WooShippingMethodMethods? methods;
+  String? id;
+  String? title;
+  String? description;
 
-  WooShippingMethod({this.parentId, this.name, this.locations, this.methods});
+  WooShippingMethod({this.id, this.title, this.description});
 
   WooShippingMethod.fromJson(Map<String, dynamic> json) {
-    parentId = json['parent_id'];
-    name = json['name'];
-    if (json['locations'] != null) {
-      locations = [];
-      json['locations'].forEach((v) {
-        locations!.add(new WooShippingMethodLocations.fromJson(v));
-      });
-    }
-    methods = json['methods'] != null
-        ? new WooShippingMethodMethods.fromJson(json['methods'])
-        : null;
+    id = json['id'];
+    title = json['title'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['parent_id'] = this.parentId;
-    data['name'] = this.name;
-    if (this.locations != null) {
-      data['locations'] = this.locations!.map((v) => v.toJson()).toList();
-    }
-    if (this.methods != null) {
-      data['methods'] = this.methods!.toJson();
-    }
+    data['id'] = this.id;
+    data['title'] = this.title;
+    data['description'] = this.description;
     return data;
   }
 
