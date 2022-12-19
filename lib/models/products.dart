@@ -263,14 +263,21 @@ class WooProductItemTag {
 class MetaData {
   final int? id;
   final String? key;
-  final String value;
+  final dynamic value;
 
-  MetaData(this.id, this.key, this.value);
+  MetaData({
+    required this.id,
+    required this.key,
+    required this.value,
+  });
 
-  MetaData.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        key = json['key'],
-        value = json['value'].toString();
+  factory MetaData.fromJson(Map<String, dynamic> json) {
+    return MetaData(
+      id: int.tryParse(json['id'].toString()),
+      key: json['key'].toString(),
+      value: json['value'],
+    );
+  }
 
   Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
 }
