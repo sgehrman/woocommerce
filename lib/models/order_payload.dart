@@ -350,15 +350,18 @@ class LineItems {
   String? subtotal;
   String? total;
   int? quantity;
+  List<LineItemMetaData> metaData = const [];
 
-  LineItems(
-      {this.productId,
-      this.name,
-      this.variationId,
-      this.taxClass,
-      this.subtotal,
-      this.total,
-      this.quantity});
+  LineItems({
+    this.productId,
+    this.name,
+    this.variationId,
+    this.taxClass,
+    this.subtotal,
+    this.total,
+    this.quantity,
+    required this.metaData,
+  });
 
   LineItems.fromJson(Map<String, dynamic> json) {
     productId = json['product_id'];
@@ -368,6 +371,8 @@ class LineItems {
     subtotal = json['subtotal'];
     total = json['total'];
     quantity = json['quantity'];
+    metaData =
+        List.from(json['meta_data']).map((i) => LineItemMetaData.fromJson(i)).toList();
   }
 
   Map<String, dynamic> toJson() {
@@ -391,6 +396,10 @@ class LineItems {
     }
 
     data['quantity'] = this.quantity;
+
+    if (this.metaData != null) {
+      data['meta_data'] = this.metaData!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 
@@ -418,4 +427,23 @@ class ShippingLines {
     data['total'] = this.total;
     return data;
   }
+}
+
+class LineItemMetaData {
+  final String? key;
+  final dynamic value;
+
+  LineItemMetaData({
+    required this.key,
+    required this.value,
+  });
+
+  factory LineItemMetaData.fromJson(Map<String, dynamic> json) {
+    return LineItemMetaData(
+      key: json['key'].toString(),
+      value: json['value'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {'key': key, 'value': value};
 }
