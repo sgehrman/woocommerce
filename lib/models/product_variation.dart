@@ -31,7 +31,6 @@
 
  */
 
-
 import 'package:collection/collection.dart';
 
 class WooProductVariation {
@@ -75,48 +74,53 @@ class WooProductVariation {
   List<WooProductVariationMetaData> metaData;
   WooProductVariationImage? image;
   int? parentId;
+  double? andromoPrice;
+  double? andromoRegularPrice;
 
   WooProductVariation(
-      this.id,
-      this.dateCreated,
-      this.dateCreatedGmt,
-      this.dateModified,
-      this.dateModifiedGmt,
-      this.description,
-      this.permalink,
-      this.sku,
-      this.price,
-      this.attributes,
-      this.regularPrice,
-      this.salePrice,
-      this.dateOnSaleFrom,
-      this.dateOnSaleFromGmt,
-      this.dateOnSaleTo,
-      this.dateOnSaleToGmt,
-      this.onSale,
-      this.status,
-      this.purchasable,
-      this.virtual,
-      this.downloadable,
-      this.downloads,
-      this.downloadLimit,
-      this.downloadExpiry,
-      this.taxStatus,
-      this.taxClass,
-      this.manageStock,
-      this.stockQuantity,
-      this.stockStatus,
-      this.backorders,
-      this.backordersAllowed,
-      this.backordered,
-      this.weight,
-      this.shippingClass,
-      this.shippingClassId,
-      this.menuOrder,
-      this.dimensions,
-      this.metaData,
-      this.image,
-      this.parentId);
+    this.id,
+    this.dateCreated,
+    this.dateCreatedGmt,
+    this.dateModified,
+    this.dateModifiedGmt,
+    this.description,
+    this.permalink,
+    this.sku,
+    this.price,
+    this.attributes,
+    this.regularPrice,
+    this.salePrice,
+    this.dateOnSaleFrom,
+    this.dateOnSaleFromGmt,
+    this.dateOnSaleTo,
+    this.dateOnSaleToGmt,
+    this.onSale,
+    this.status,
+    this.purchasable,
+    this.virtual,
+    this.downloadable,
+    this.downloads,
+    this.downloadLimit,
+    this.downloadExpiry,
+    this.taxStatus,
+    this.taxClass,
+    this.manageStock,
+    this.stockQuantity,
+    this.stockStatus,
+    this.backorders,
+    this.backordersAllowed,
+    this.backordered,
+    this.weight,
+    this.shippingClass,
+    this.shippingClassId,
+    this.menuOrder,
+    this.dimensions,
+    this.metaData,
+    this.image,
+    this.parentId,
+    this.andromoPrice,
+    this.andromoRegularPrice,
+  );
 
   WooProductVariation.fromJson(Map<String, dynamic> json)
       : id = json['id'],
@@ -130,12 +134,18 @@ class WooProductVariation {
         onSale = json['on_sale'],
         purchasable = json['purchasable'],
         virtual = json['virtual'],
-        downloadable = json['downloadable'], downloads = (json['downloads'] as List).map((i) => WooProductVariationDownload.fromJson(i)).toList(),
+        downloadable = json['downloadable'],
+        downloads = (json['downloads'] as List)
+            .map((i) => WooProductVariationDownload.fromJson(i))
+            .toList(),
         downloadLimit = json['download_limit'],
         downloadExpiry = json['download_expiry'],
         taxStatus = json['tax_status'],
         taxClass = json['tax_class'],
-        manageStock = (json['manage_stock'] != null && json['manage_stock'] is bool) ? json['manage_stock'] : false,
+        manageStock =
+            (json['manage_stock'] != null && json['manage_stock'] is bool)
+                ? json['manage_stock']
+                : false,
         stockQuantity = json['stock_quantity'],
         stockStatus = json['stock_status'],
         backorders = json['backorders'],
@@ -146,9 +156,20 @@ class WooProductVariation {
         shippingClass = json['shipping_class'],
         shippingClassId = json['shipping_class_id'],
         menuOrder = json['menu_order'],
-        attributes = (json['attributes'] as List).map((i) => WooProductVariationAttribute.fromJson(i)).toList(),
-        metaData = (json['meta_data'] as List).map((i) => WooProductVariationMetaData.fromJson(i)).toList(),
-        parentId = int.tryParse(Uri.parse((json['_links']?['up'] as List?)?.firstOrNull?['href']).pathSegments.lastOrNull ?? '');
+        attributes = (json['attributes'] as List)
+            .map((i) => WooProductVariationAttribute.fromJson(i))
+            .toList(),
+        metaData = (json['meta_data'] as List)
+            .map((i) => WooProductVariationMetaData.fromJson(i))
+            .toList(),
+        parentId = int.tryParse(
+          Uri.parse((json['_links']?['up'] as List?)?.firstOrNull?['href'])
+                  .pathSegments
+                  .lastOrNull ??
+              '',
+        ),
+        andromoPrice = json['andromo_price_to_display'],
+        andromoRegularPrice = json['andromo_regular_price_to_display'];
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
@@ -202,7 +223,8 @@ class WooProductVariationDimension {
         width = json['width'],
         height = json['height'];
 
-  Map<String, dynamic> toJson() => {'length': length, 'width': width, 'height': height};
+  Map<String, dynamic> toJson() =>
+      {'length': length, 'width': width, 'height': height};
 }
 
 class WooProductVariationAttribute {
@@ -253,8 +275,15 @@ class WooProductVariationImage {
   final String? name;
   final String? alt;
 
-  WooProductVariationImage(this.id, this.src, this.name, this.alt, this.dateCreated, this.dateCreatedGMT,
-      this.dateModified, this.dateModifiedGMT);
+  WooProductVariationImage(
+      this.id,
+      this.src,
+      this.name,
+      this.alt,
+      this.dateCreated,
+      this.dateCreatedGMT,
+      this.dateModified,
+      this.dateModifiedGMT);
 
   WooProductVariationImage.fromJson(Map<String, dynamic> json)
       : id = json['id'],
