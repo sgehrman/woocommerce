@@ -93,10 +93,10 @@ class WooProduct {
   final List<int>? groupedProducts;
   final int? menuOrder;
   final List<MetaData> metaData;
-  final double? andromoPrice;
-  final double? andromoRegularPrice;
-  final String? andromoVariationMinPrice;
-  final String? andromoVariationMaxPrice;
+  final double? andromoPriceToDisplay;
+  final double? andromoRegularPriceToDisplay;
+  final String? andromoVariationMinPriceToDisplay;
+  final String? andromoVariationMaxPriceToDisplay;
 
   WooProduct(
     this.id,
@@ -156,10 +156,10 @@ class WooProduct {
     this.groupedProducts,
     this.menuOrder,
     this.metaData,
-    this.andromoPrice,
-    this.andromoRegularPrice,
-    this.andromoVariationMaxPrice,
-    this.andromoVariationMinPrice,
+    this.andromoPriceToDisplay,
+    this.andromoRegularPriceToDisplay,
+    this.andromoVariationMaxPriceToDisplay,
+    this.andromoVariationMinPriceToDisplay,
   );
 
   WooProduct.fromJson(Map<String, dynamic> json)
@@ -235,11 +235,11 @@ class WooProduct {
         metaData = (json['meta_data'] as List)
             .map((i) => MetaData.fromJson(i))
             .toList(),
-        andromoPrice = json['andromo_price_to_display'],
-        andromoRegularPrice = json['andromo_regular_price_to_display'],
-        andromoVariationMaxPrice =
+        andromoPriceToDisplay = json['andromo_price_to_display'],
+        andromoRegularPriceToDisplay = json['andromo_regular_price_to_display'],
+        andromoVariationMaxPriceToDisplay =
             json['andromo_variation_max_price_to_display'],
-        andromoVariationMinPrice =
+        andromoVariationMinPriceToDisplay =
             json['andromo_variation_min_price_to_display'];
 
   @override

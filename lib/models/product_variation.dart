@@ -74,8 +74,8 @@ class WooProductVariation {
   List<WooProductVariationMetaData> metaData;
   WooProductVariationImage? image;
   int? parentId;
-  double? andromoPrice;
-  double? andromoRegularPrice;
+  double? andromoPriceToDisplay;
+  double? andromoRegularPriceToDisplay;
 
   WooProductVariation(
     this.id,
@@ -118,8 +118,8 @@ class WooProductVariation {
     this.metaData,
     this.image,
     this.parentId,
-    this.andromoPrice,
-    this.andromoRegularPrice,
+    this.andromoPriceToDisplay,
+    this.andromoRegularPriceToDisplay,
   );
 
   WooProductVariation.fromJson(Map<String, dynamic> json)
@@ -168,8 +168,8 @@ class WooProductVariation {
                   .lastOrNull ??
               '',
         ),
-        andromoPrice = json['andromo_price_to_display'],
-        andromoRegularPrice = json['andromo_regular_price_to_display'];
+        andromoPriceToDisplay = json['andromo_price_to_display'],
+        andromoRegularPriceToDisplay = json['andromo_regular_price_to_display'];
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
