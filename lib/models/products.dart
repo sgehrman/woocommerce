@@ -235,15 +235,20 @@ class WooProduct {
         metaData = (json['meta_data'] as List)
             .map((i) => MetaData.fromJson(i))
             .toList(),
-        andromoPriceToDisplay = json['andromo_price_to_display'],
-        andromoRegularPriceToDisplay = json['andromo_regular_price_to_display'],
+        andromoPriceToDisplay = double.tryParse(
+          json['andromo_price_to_display'].toString(),
+        ),
+        andromoRegularPriceToDisplay = double.tryParse(
+          json['andromo_regular_price_to_display'].toString(),
+        ),
         andromoVariationMaxPriceToDisplay =
             json['andromo_variation_max_price_to_display'],
         andromoVariationMinPriceToDisplay =
             json['andromo_variation_min_price_to_display'];
 
   @override
-  toString() => "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+  String toString() =>
+      "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
 
   @override
   bool operator ==(Object other) {
@@ -272,7 +277,7 @@ class WooProductItemTag {
 
   Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
   @override
-  toString() => 'Tag: $name';
+  String toString() => 'Tag: $name';
 }
 
 class MetaData {

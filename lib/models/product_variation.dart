@@ -168,8 +168,12 @@ class WooProductVariation {
                   .lastOrNull ??
               '',
         ),
-        andromoPriceToDisplay = json['andromo_price_to_display'],
-        andromoRegularPriceToDisplay = json['andromo_regular_price_to_display'];
+        andromoPriceToDisplay = double.tryParse(
+          json['andromo_price_to_display'].toString(),
+        ),
+        andromoRegularPriceToDisplay = double.tryParse(
+          json['andromo_regular_price_to_display'].toString(),
+        );
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
