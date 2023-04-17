@@ -421,34 +421,37 @@ class WooCommerce {
   /// Returns a list of all [WooProduct], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#products.
-  Future<List<WooProduct>> getProducts(
-      {int? page,
-      int? perPage,
-      String? search,
-      String? after,
-      String? before,
-      String? order,
-      String? orderBy,
-      String? slug,
-      String? status,
-      String? type,
-      String? sku,
-      String? category,
-      String? tag,
-      String? shippingClass,
-      String? attribute,
-      String? attributeTerm,
-      String? taxClass,
-      String? minPrice,
-      String? maxPrice,
-      String? stockStatus,
-      List<int>? exclude,
-      List<int>? parentExclude,
-      List<int>? include,
-      List<int>? parent,
-      int? offset,
-      bool? featured,
-      bool? onSale}) async {
+  Future<List<WooProduct>> getProducts({
+    int? page,
+    int? perPage,
+    String? search,
+    String? after,
+    String? before,
+    String? order,
+    String? orderBy,
+    String? slug,
+    String? status,
+    String? type,
+    String? sku,
+    String? category,
+    String? tag,
+    String? shippingClass,
+    String? attribute,
+    String? attributeTerm,
+    String? taxClass,
+    String? minPrice,
+    String? maxPrice,
+    String? stockStatus,
+    List<int>? exclude,
+    List<int>? parentExclude,
+    List<int>? include,
+    List<int>? parent,
+    int? offset,
+    bool? featured,
+    bool? onSale,
+    String? lang,
+    String? currency,
+  }) async {
     Map<String, dynamic> payload = {};
 
     ({
@@ -479,6 +482,8 @@ class WooCommerce {
       'min_price': minPrice,
       'max_price': maxPrice,
       'stock_status': stockStatus,
+      'lang': lang,
+      'currency': currency,
     }).forEach((k, v) {
       if (v != null) payload[k] = v.toString();
     });
@@ -498,10 +503,11 @@ class WooCommerce {
   }
 
   /// Returns a [WooProduct], with the specified [id].
-  Future<WooProduct> getProductById({required int id}) async {
+  Future<WooProduct> getProductById({required int id, String? currency}) async {
     WooProduct product;
     _setApiResourceUrl(
       path: 'products/' + id.toString(),
+      queryParameters: currency != null ? {'currency': currency} : null,
     );
     final response = await get(queryUri.toString());
     product = WooProduct.fromJson(response);
@@ -511,28 +517,31 @@ class WooCommerce {
   /// Returns a list of all [WooProductVariation], with filter options.
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-variations
-  Future<List<WooProductVariation>> getProductVariations(
-      {required int productId,
-      int? page,
-      int? perPage,
-      String? search,
-      String? after,
-      String? before,
-      List<int>? exclude,
-      List<int>? include,
-      int? offset,
-      String? order,
-      String? orderBy,
-      List<int>? parent,
-      List<int>? parentExclude,
-      String? slug,
-      String? status,
-      String? sku,
-      String? taxClass,
-      bool? onSale,
-      String? minPrice,
-      String? maxPrice,
-      String? stockStatus}) async {
+  Future<List<WooProductVariation>> getProductVariations({
+    required int productId,
+    int? page,
+    int? perPage,
+    String? search,
+    String? after,
+    String? before,
+    List<int>? exclude,
+    List<int>? include,
+    int? offset,
+    String? order,
+    String? orderBy,
+    List<int>? parent,
+    List<int>? parentExclude,
+    String? slug,
+    String? status,
+    String? sku,
+    String? taxClass,
+    bool? onSale,
+    String? minPrice,
+    String? maxPrice,
+    String? stockStatus,
+    String? lang,
+    String? currency,
+  }) async {
     Map<String, dynamic> payload = {};
 
     ({
@@ -556,11 +565,15 @@ class WooCommerce {
       'min_price': minPrice,
       'max_price': maxPrice,
       'stock_status': stockStatus,
+      'lang': lang,
+      'currency': currency,
     }).forEach((k, v) {
       if (v != null) payload[k] = v.toString();
     });
     List<WooProductVariation> productVariations = [];
-    _setApiResourceUrl(path: 'products/' + productId.toString() + '/variations', queryParameters: payload);
+    _setApiResourceUrl(
+        path: 'products/' + productId.toString() + '/variations',
+        queryParameters: payload);
     _printToLog('this is the curent path : ' + this.apiPath);
     final response = await get(queryUri.toString());
     for (var v in response) {
@@ -573,10 +586,15 @@ class WooCommerce {
 
   /// Returns a [WooProductVariation], with the specified [productId] and [variationId].
 
-  Future<WooProductVariation> getProductVariationById({required int productId, variationId}) async {
+  Future<WooProductVariation> getProductVariationById(
+      {required int productId, variationId, String? currency}) async {
     WooProductVariation productVariation;
     _setApiResourceUrl(
-      path: 'products/' + productId.toString() + '/variations/' + variationId.toString(),
+      path: 'products/' +
+          productId.toString() +
+          '/variations/' +
+          variationId.toString(),
+      queryParameters: currency != null ? {'currency': currency} : null,
     );
     final response = await get(queryUri.toString());
     _printToLog('response gotten : ' + response.toString());
@@ -694,8 +712,11 @@ class WooCommerce {
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#product-categories
 
-  Future<List<dynamic>> getStoreSettings() async {
-    _setApiResourceUrl(path: 'settings/general');
+  Future<List<dynamic>> getStoreSettings({String? lang}) async {
+    _setApiResourceUrl(
+      path: 'settings/general',
+      queryParameters: lang != null ? {'lang': lang} : null,
+    );
     _printToLog('this is the path : ' + this.apiPath);
 
     return await get(queryUri.toString());
@@ -1520,9 +1541,14 @@ class WooCommerce {
   /// Returns a list of all [WooShippingMethod].
   ///
   /// Related endpoint: https://woocommerce.github.io/woocommerce-rest-api-docs/#shipping-methods.
-  Future<List<WooShippingMethod>> getShippingMethods() async {
+  Future<List<WooShippingMethod>> getShippingMethods({
+    String? lang,
+  }) async {
     List<WooShippingMethod> shippingMethods = [];
-    _setApiResourceUrl(path: 'shipping_methods');
+    _setApiResourceUrl(
+      path: 'shipping_methods',
+      queryParameters: lang != null ? {'lang': lang} : null,
+    );
     final response = await get(queryUri.toString());
     for (var z in response) {
       var sMethod = WooShippingMethod.fromJson(z);

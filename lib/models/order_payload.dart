@@ -47,23 +47,26 @@ class WooOrderPayload {
   WooOrderPayloadShipping? shipping;
   List<LineItems>? lineItems;
   List<ShippingLines>? shippingLines;
+  String? lang;
 
-  WooOrderPayload(
-      {this.paymentMethod,
-      this.paymentMethodTitle,
-      this.setPaid,
-      this.status,
-      this.currency,
-      this.customerId,
-      this.customerNote,
-      this.parentId,
-      this.metaData,
-      this.feeLines,
-      this.couponLines,
-      this.billing,
-      this.shipping,
-      this.lineItems,
-      this.shippingLines});
+  WooOrderPayload({
+    this.paymentMethod,
+    this.paymentMethodTitle,
+    this.setPaid,
+    this.status,
+    this.currency,
+    this.customerId,
+    this.customerNote,
+    this.parentId,
+    this.metaData,
+    this.feeLines,
+    this.couponLines,
+    this.billing,
+    this.shipping,
+    this.lineItems,
+    this.shippingLines,
+    this.lang,
+  });
 
   WooOrderPayload.fromJson(Map<String, dynamic> json) {
     paymentMethod = json['payment_method'];
@@ -110,6 +113,7 @@ class WooOrderPayload {
         shippingLines!.add(new ShippingLines.fromJson(v));
       });
     }
+    lang = json['lang'];
   }
 
   Map<String, dynamic> toJson() {
@@ -143,6 +147,9 @@ class WooOrderPayload {
     if (this.shippingLines != null) {
       data['shipping_lines'] =
           this.shippingLines!.map((v) => v.toJson()).toList();
+    }
+    if (lang != null) {
+      data['lang'] = lang;
     }
     return data;
   }

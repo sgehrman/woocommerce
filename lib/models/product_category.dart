@@ -45,18 +45,23 @@ class WooProductCategory {
   int? menuOrder;
   int? count;
   WooProductCategoryLinks? links;
+  Map<String, dynamic>? translations;
+  String? lang;
 
-  WooProductCategory(
-      {this.id,
-      this.name,
-      this.slug,
-      this.parent,
-      this.description,
-      this.display,
-      this.image,
-      this.menuOrder,
-      this.count,
-      this.links});
+  WooProductCategory({
+    this.id,
+    this.name,
+    this.slug,
+    this.parent,
+    this.description,
+    this.display,
+    this.image,
+    this.menuOrder,
+    this.count,
+    this.links,
+    this.translations,
+    this.lang,
+  });
 
   WooProductCategory.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,11 +70,17 @@ class WooProductCategory {
     parent = json['parent'];
     description = json['description'];
     display = json['display'];
-    image = json['image'] != null ? new WooProductCategoryImage.fromJson(json['image']) : null;
+    image = json['image'] != null
+        ? new WooProductCategoryImage.fromJson(json['image'])
+        : null;
     acf = json['acf'] ?? {};
     menuOrder = json['menu_order'];
     count = json['count'];
-    links = json['_links'] != null ? new WooProductCategoryLinks.fromJson(json['_links']) : null;
+    links = json['_links'] != null
+        ? new WooProductCategoryLinks.fromJson(json['_links'])
+        : null;
+    translations = json['translations'];
+    lang = json['lang'];
   }
 
   Map<String, dynamic> toJson() {

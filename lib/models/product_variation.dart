@@ -76,6 +76,8 @@ class WooProductVariation {
   int? parentId;
   double? andromoPriceToDisplay;
   double? andromoRegularPriceToDisplay;
+  Map<String, dynamic>? translations;
+  String? lang;
 
   WooProductVariation(
     this.id,
@@ -120,6 +122,8 @@ class WooProductVariation {
     this.parentId,
     this.andromoPriceToDisplay,
     this.andromoRegularPriceToDisplay,
+    this.translations,
+    this.lang,
   );
 
   WooProductVariation.fromJson(Map<String, dynamic> json)
@@ -173,7 +177,9 @@ class WooProductVariation {
         ),
         andromoRegularPriceToDisplay = double.tryParse(
           json['andromo_regular_price_to_display'].toString(),
-        );
+        ),
+        translations = json['translations'],
+        lang = json['lang'];
 
   Map<String, dynamic> toJson() => {
         'id': this.id,
