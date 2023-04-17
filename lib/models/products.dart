@@ -97,6 +97,8 @@ class WooProduct {
   final double? andromoRegularPriceToDisplay;
   final String? andromoVariationMinPriceToDisplay;
   final String? andromoVariationMaxPriceToDisplay;
+  final Map<String, dynamic>? translations;
+  final String? lang;
 
   WooProduct(
     this.id,
@@ -160,6 +162,8 @@ class WooProduct {
     this.andromoRegularPriceToDisplay,
     this.andromoVariationMaxPriceToDisplay,
     this.andromoVariationMinPriceToDisplay,
+    this.translations,
+    this.lang,
   );
 
   WooProduct.fromJson(Map<String, dynamic> json)
@@ -244,7 +248,9 @@ class WooProduct {
         andromoVariationMaxPriceToDisplay =
             json['andromo_variation_max_price_to_display'],
         andromoVariationMinPriceToDisplay =
-            json['andromo_variation_min_price_to_display'];
+            json['andromo_variation_min_price_to_display'],
+        translations = json['translations'],
+        lang = json['lang'];
 
   @override
   String toString() =>
