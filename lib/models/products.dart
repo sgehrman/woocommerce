@@ -1,40 +1,13 @@
-import 'package:flutter/foundation.dart';
+import 'package:json_annotation/json_annotation.dart';
+import 'package:woocommerce/models/product_category.dart';
 
-/*
- * BSD 3-Clause License
+part 'products.g.dart';
 
-    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
-    All rights reserved.
-
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-
-    2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-    3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- */
-
-import 'product_category.dart';
-
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProduct {
   final int? id;
   final String? name;
@@ -166,99 +139,21 @@ class WooProduct {
     this.lang,
   );
 
-  WooProduct.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        slug = json['slug'],
-        permalink = json['permalink'],
-        type = json['type'],
-        status = json['status'],
-        featured = json['featured'],
-        catalogVisibility = json['catalog_visibility'],
-        description = json['description'],
-        shortDescription = json['short_description'],
-        sku = json['sku'],
-        price = json['price'],
-        regularPrice = json['regular_price'],
-        salePrice = json['sale_price'],
-        priceHtml = json['price_html'],
-        onSale = json['on_sale'],
-        purchasable = json['purchasable'],
-        // totalSales = json['total_sales'],
-        totalSales = 0,
-        virtual = json['virtual'],
-        downloadable = json['downloadable'],
-        downloads = (json['downloads'] as List)
-            .map((i) => WooProductDownload.fromJson(i))
-            .toList(),
-        downloadLimit = json['download_limit'],
-        downloadExpiry = json['download_expiry'],
-        externalUrl = json['external_url'],
-        buttonText = json['button_text'],
-        taxStatus = json['tax_status'],
-        taxClass = json['tax_class'],
-        manageStock = json['manage_stock'],
-        stockQuantity = json['stock_quantity'],
-        stockStatus = json['stock_status'],
-        backorders = json['backorders'],
-        backordersAllowed = json['backorders_allowed'],
-        backordered = json['backordered'],
-        soldIndividually = json['sold_individually'],
-        weight = json['weight'],
-        dimensions = WooProductDimension.fromJson(json['dimensions']),
-        shippingRequired = json['shipping_required'],
-        shippingTaxable = json['shipping_taxable'],
-        shippingClass = json['shipping_class'],
-        shippingClassId = json['shipping_class_id'],
-        reviewsAllowed = json['reviews_allowed'],
-        averageRating = json['average_rating'],
-        ratingCount = json['rating_count'],
-        relatedIds = json['related_ids'].cast<int>(),
-        upsellIds = json['upsell_ids'].cast<int>(),
-        crossSellIds = json['cross_sell_ids'].cast<int>(),
-        parentId = json['parent_id'],
-        purchaseNote = json['purchase_note'],
-        categories = (json['categories'] as List)
-            .map((i) => WooProductCategory.fromJson(i))
-            .toList(),
-        tags = (json['tags'] as List)
-            .map((i) => WooProductItemTag.fromJson(i))
-            .toList(),
-        images = (json['images'] as List)
-            .map((i) => WooProductImage.fromJson(i))
-            .toList(),
-        attributes = (json['attributes'] as List)
-            .map((i) => WooProductItemAttribute.fromJson(i))
-            .toList(),
-        defaultAttributes = (json['default_attributes'] as List)
-            .map((i) => WooProductDefaultAttribute.fromJson(i))
-            .toList(),
-        variations = json['variations'].cast<int>(),
-        groupedProducts = json['grouped_products'].cast<int>(),
-        menuOrder = json['menu_order'],
-        metaData = (json['meta_data'] as List)
-            .map((i) => MetaData.fromJson(i))
-            .toList(),
-        andromoPriceToDisplay = double.tryParse(
-          json['andromo_price_to_display'].toString(),
-        ),
-        andromoRegularPriceToDisplay = double.tryParse(
-          json['andromo_regular_price_to_display'].toString(),
-        ),
-        andromoVariationMaxPriceToDisplay =
-            json['andromo_variation_max_price_to_display'],
-        andromoVariationMinPriceToDisplay =
-            json['andromo_variation_min_price_to_display'],
-        translations = json['translations'],
-        lang = json['lang'];
-
   @override
-  String toString() =>
-      "{id: $id}, {name: $name}, {price: $price}, {status: $status}";
+  String toString() {
+    return toJson().toString();
+  }
+
+  factory WooProduct.fromJson(Map<String, dynamic> json) =>
+      _$WooProductFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductToJson(this);
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    if (identical(this, other)) {
+      return true;
+    }
 
     return other is WooProduct && other.id == id;
   }
@@ -269,6 +164,13 @@ class WooProduct {
   }
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductItemTag {
   final int? id;
   final String? name;
@@ -276,16 +178,24 @@ class WooProductItemTag {
 
   WooProductItemTag(this.id, this.name, this.slug);
 
-  WooProductItemTag.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        slug = json['slug'];
-
-  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'slug': slug};
   @override
-  String toString() => 'Tag: $name';
+  String toString() {
+    return toJson().toString();
+  }
+
+  factory WooProductItemTag.fromJson(Map<String, dynamic> json) =>
+      _$WooProductItemTagFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductItemTagToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class MetaData {
   final int? id;
   final String? key;
@@ -297,17 +207,24 @@ class MetaData {
     required this.value,
   });
 
-  factory MetaData.fromJson(Map<String, dynamic> json) {
-    return MetaData(
-      id: int.tryParse(json['id'].toString()),
-      key: json['key'].toString(),
-      value: json['value'],
-    );
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
+  factory MetaData.fromJson(Map<String, dynamic> json) =>
+      _$MetaDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$MetaDataToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductDefaultAttribute {
   final int? id;
   final String? name;
@@ -315,14 +232,24 @@ class WooProductDefaultAttribute {
 
   WooProductDefaultAttribute(this.id, this.name, this.option);
 
-  WooProductDefaultAttribute.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        option = json['option'];
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 
-  Map<String, dynamic> toJson() => {'id': id, 'name': name, 'option': option};
+  factory WooProductDefaultAttribute.fromJson(Map<String, dynamic> json) =>
+      _$WooProductDefaultAttributeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductDefaultAttributeToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductImage {
   final int? id;
   final DateTime dateCreated;
@@ -333,18 +260,26 @@ class WooProductImage {
   final String? name;
   final String? alt;
 
-  WooProductImage(this.id, this.src, this.name, this.alt, this.dateCreated,
-      this.dateCreatedGMT, this.dateModified, this.dateModifiedGMT);
+  WooProductImage(
+    this.id,
+    this.src,
+    this.name,
+    this.alt,
+    this.dateCreated,
+    this.dateCreatedGMT,
+    this.dateModified,
+    this.dateModifiedGMT,
+  );
 
-  WooProductImage.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        src = json['src'],
-        name = json['name'],
-        alt = json['alt'],
-        dateCreated = DateTime.parse(json['date_created']),
-        dateModifiedGMT = DateTime.parse(json['date_modified_gmt']),
-        dateModified = DateTime.parse(json['date_modified']),
-        dateCreatedGMT = DateTime.parse(json['date_created_gmt']);
+  @override
+  String toString() {
+    return toJson().toString();
+  }
+
+  factory WooProductImage.fromJson(Map<String, dynamic> json) =>
+      _$WooProductImageFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductImageToJson(this);
 }
 
 ///
@@ -369,6 +304,13 @@ class WooProductImage {
 /// }
 ///
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductDimension {
   final String? length;
   final String? width;
@@ -376,15 +318,24 @@ class WooProductDimension {
 
   WooProductDimension(this.length, this.height, this.width);
 
-  WooProductDimension.fromJson(Map<String, dynamic> json)
-      : length = json['length'],
-        width = json['width'],
-        height = json['height'];
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 
-  Map<String, dynamic> toJson() =>
-      {'length': length, 'width': width, 'height': height};
+  factory WooProductDimension.fromJson(Map<String, dynamic> json) =>
+      _$WooProductDimensionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductDimensionToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductItemAttribute {
   final int? id;
   final String? name;
@@ -393,27 +344,33 @@ class WooProductItemAttribute {
   final bool? variation;
   final List<String>? options;
 
-  WooProductItemAttribute(this.id, this.name, this.position, this.visible,
-      this.variation, this.options);
+  WooProductItemAttribute({
+    this.id,
+    this.name,
+    this.position,
+    this.visible,
+    this.variation,
+    this.options,
+  });
 
-  WooProductItemAttribute.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        position = json['position'],
-        visible = json['visible'],
-        variation = json['variation'],
-        options = json['options']?.cast<String>();
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'position': position,
-        'visible': visible,
-        'variation': variation,
-        'options': options,
-      };
+  factory WooProductItemAttribute.fromJson(Map<String, dynamic> json) =>
+      _$WooProductItemAttributeFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductItemAttributeToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooProductDownload {
   final String? id;
   final String? name;
@@ -421,14 +378,13 @@ class WooProductDownload {
 
   WooProductDownload(this.id, this.name, this.file);
 
-  WooProductDownload.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        name = json['name'],
-        file = json['file'];
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 
-  Map<String, dynamic> toJson() => {
-        'id': id,
-        'name': name,
-        'file': file,
-      };
+  factory WooProductDownload.fromJson(Map<String, dynamic> json) =>
+      _$WooProductDownloadFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooProductDownloadToJson(this);
 }

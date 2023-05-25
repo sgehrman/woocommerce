@@ -1,36 +1,12 @@
-/*
- * BSD 3-Clause License
+import 'package:json_annotation/json_annotation.dart';
 
-    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
-    All rights reserved.
+part 'customer.g.dart';
 
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-
-    2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-    3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- */
-
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooCustomer {
   int? id;
   String? dateCreated;
@@ -50,84 +26,41 @@ class WooCustomer {
   List<WooCustomerMetaData>? metaData;
   Links? links;
 
-  WooCustomer(
-      {this.id,
-      this.dateCreated,
-      this.dateCreatedGmt,
-      this.dateModified,
-      this.dateModifiedGmt,
-      this.email,
-      this.firstName,
-      this.lastName,
-      this.role,
-      this.username,
-      this.password,
-      this.billing,
-      this.shipping,
-      this.isPayingCustomer,
-      this.avatarUrl,
-      this.metaData,
-      this.links});
-
-  WooCustomer.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    dateCreated = json['date_created'];
-    dateCreatedGmt = json['date_created_gmt'];
-    dateModified = json['date_modified'];
-    dateModifiedGmt = json['date_modified_gmt'];
-    email = json['email'];
-    firstName = json['first_name'];
-    lastName = json['last_name'];
-    role = json['role'];
-    username = json['username'];
-    billing = json['billing'] != null ? Billing.fromJson(json['billing']) : null;
-    shipping = json['shipping'] != null ? Shipping.fromJson(json['shipping']) : null;
-    isPayingCustomer = json['is_paying_customer'];
-    avatarUrl = json['avatar_url'];
-    metaData = (json['meta_data'] as List).map((i) => WooCustomerMetaData.fromJson(i)).toList();
-    links = json['_links'] != null ? new Links.fromJson(json['_links']) : null;
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['date_created'] = this.dateCreated;
-    data['date_created_gmt'] = this.dateCreatedGmt;
-    data['date_modified'] = this.dateModified;
-    data['date_modified_gmt'] = this.dateModifiedGmt;
-    data['email'] = this.email;
-    if (this.firstName != null) {
-      data['first_name'] = this.firstName;
-    }
-    if (this.lastName != null) {
-      data['last_name'] = this.lastName;
-    }
-    data['role'] = this.role;
-    data['username'] = this.username;
-    data['password'] = this.password;
-    if (this.billing != null) {
-      data['billing'] = this.billing!.toJson();
-    }
-    if (this.shipping != null) {
-      data['shipping'] = this.shipping!.toJson();
-    }
-    data['is_paying_customer'] = this.isPayingCustomer;
-    data['avatar_url'] = this.avatarUrl;
-    if (this.metaData != null) {
-      data['meta_data'] = this.metaData!.map((v) => v.toJson()).toList();
-    }
-    if (this.links != null) {
-      data['_links'] = this.links!.toJson();
-    }
-    return data;
-  }
+  WooCustomer({
+    this.id,
+    this.dateCreated,
+    this.dateCreatedGmt,
+    this.dateModified,
+    this.dateModifiedGmt,
+    this.email,
+    this.firstName,
+    this.lastName,
+    this.role,
+    this.username,
+    this.password,
+    this.billing,
+    this.shipping,
+    this.isPayingCustomer,
+    this.avatarUrl,
+    this.metaData,
+    this.links,
+  });
 
   @override
-  toString() => this.toJson().toString();
+  String toString() {
+    return toJson().toString();
+  }
+
+  factory WooCustomer.fromJson(Map<String, dynamic> json) =>
+      _$WooCustomerFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooCustomerToJson(this);
 
   @override
   bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+    if (identical(this, other)) {
+      return true;
+    }
 
     return other is WooCustomer && other.id == id;
   }
@@ -138,6 +71,11 @@ class WooCustomer {
   }
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooCustomerMetaData {
   final int? id;
   final String? key;
@@ -145,14 +83,22 @@ class WooCustomerMetaData {
 
   WooCustomerMetaData(this.id, this.key, this.value);
 
-  WooCustomerMetaData.fromJson(Map<String, dynamic> json)
-      : id = json['id'],
-        key = json['key'],
-        value = json['value'];
+  @override
+  String toString() {
+    return toJson().toString();
+  }
 
-  Map<String, dynamic> toJson() => {'id': id, 'key': key, 'value': value};
+  factory WooCustomerMetaData.fromJson(Map<String, dynamic> json) =>
+      _$WooCustomerMetaDataFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooCustomerMetaDataToJson(this);
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class Billing {
   String? firstName;
   String? lastName;
@@ -166,76 +112,36 @@ class Billing {
   String? email;
   String? phone;
 
-  Billing(
-      {this.firstName,
-      this.lastName,
-      this.company,
-      this.address1,
-      this.address2,
-      this.city,
-      this.state,
-      this.postcode,
-      this.country,
-      this.email,
-      this.phone});
+  Billing({
+    this.firstName,
+    this.lastName,
+    this.company,
+    this.address1,
+    this.address2,
+    this.city,
+    this.state,
+    this.postcode,
+    this.country,
+    this.email,
+    this.phone,
+  });
 
-  static Billing? fromJson(Map<String, dynamic> json) {
-    final firstName = parseField(json['first_name']);
-    final lastName = parseField(json['last_name']);
-    final company = parseField(json['company']);
-    final address1 = parseField(json['address_1']);
-    final address2 = parseField(json['address_2']);
-    final city = parseField(json['city']);
-    final state = parseField(json['state']);
-    final postcode = parseField(json['postcode']);
-    final country = parseField(json['country']);
-    final email = parseField(json['email']);
-    final phone = parseField(json['phone']);
-
-    if (firstName == null &&
-        lastName == null &&
-        company == null &&
-        address1 == null &&
-        address2 == null &&
-        city == null &&
-        postcode == null &&
-        state == null &&
-        country == null &&
-        email == null &&
-        phone == null) return null;
-
-    return Billing(
-      firstName: firstName,
-      lastName: lastName,
-      company: company,
-      address1: address1,
-      address2: address2,
-      city: city,
-      state: state,
-      country: country,
-      postcode: postcode,
-      phone: phone,
-      email: email,
-    );
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName ?? "";
-    data['last_name'] = this.lastName ?? "";
-    data['company'] = this.company ?? "";
-    data['address_1'] = this.address1 ?? "";
-    data['address_2'] = this.address2 ?? "";
-    data['city'] = this.city ?? "";
-    data['state'] = this.state ?? "";
-    data['postcode'] = this.postcode ?? "";
-    data['country'] = this.country ?? "";
-    data['email'] = this.email ?? "";
-    data['phone'] = this.phone ?? "";
-    return data;
-  }
+  factory Billing.fromJson(Map<String, dynamic> json) =>
+      _$BillingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$BillingToJson(this);
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class Shipping {
   String? firstName;
   String? lastName;
@@ -247,129 +153,89 @@ class Shipping {
   String? postcode;
   String? country;
 
-  Shipping(
-      {this.firstName,
-      this.lastName,
-      this.company,
-      this.address1,
-      this.address2,
-      this.city,
-      this.state,
-      this.postcode,
-      this.country});
+  Shipping({
+    this.firstName,
+    this.lastName,
+    this.company,
+    this.address1,
+    this.address2,
+    this.city,
+    this.state,
+    this.postcode,
+    this.country,
+  });
 
-  static Shipping? fromJson(Map<String, dynamic> json) {
-    final firstName = parseField(json['first_name']);
-    final lastName = parseField(json['last_name']);
-    final company = parseField(json['company']);
-    final address1 = parseField(json['address_1']);
-    final address2 = parseField(json['address_2']);
-    final city = parseField(json['city']);
-    final state = parseField(json['state']);
-    final postcode = parseField(json['postcode']);
-    final country = parseField(json['country']);
-
-    if (firstName == null &&
-        lastName == null &&
-        company == null &&
-        address1 == null &&
-        address2 == null &&
-        city == null &&
-        postcode == null &&
-        state == null &&
-        country == null) return null;
-
-    return Shipping(
-      firstName: firstName,
-      lastName: lastName,
-      company: company,
-      address1: address1,
-      address2: address2,
-      city: city,
-      state: state,
-      country: country,
-      postcode: postcode,
-    );
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['first_name'] = this.firstName;
-    data['last_name'] = this.lastName;
-    data['company'] = this.company;
-    data['address_1'] = this.address1;
-    data['address_2'] = this.address2;
-    data['city'] = this.city;
-    data['state'] = this.state;
-    data['postcode'] = this.postcode;
-    data['country'] = this.country;
-    return data;
-  }
+  factory Shipping.fromJson(Map<String, dynamic> json) =>
+      _$ShippingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$ShippingToJson(this);
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class Links {
   List<Self>? self;
   List<Collection>? collection;
 
   Links({this.self, this.collection});
 
-  Links.fromJson(Map<String, dynamic> json) {
-    if (json['self'] != null) {
-      self = <Self>[];
-      json['self'].forEach((v) {
-        self!.add(new Self.fromJson(v));
-      });
-    }
-    if (json['collection'] != null) {
-      collection = <Collection>[];
-      json['collection'].forEach((v) {
-        collection!.add(new Collection.fromJson(v));
-      });
-    }
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.self != null) {
-      data['self'] = this.self!.map((v) => v.toJson()).toList();
-    }
-    if (this.collection != null) {
-      data['collection'] = this.collection!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  factory Links.fromJson(Map<String, dynamic> json) => _$LinksFromJson(json);
+
+  Map<String, dynamic> toJson() => _$LinksToJson(this);
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class Self {
   String? href;
 
   Self({this.href});
 
-  Self.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    return data;
-  }
+  factory Self.fromJson(Map<String, dynamic> json) => _$SelfFromJson(json);
+
+  Map<String, dynamic> toJson() => _$SelfToJson(this);
 }
 
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class Collection {
   String? href;
 
   Collection({this.href});
 
-  Collection.fromJson(Map<String, dynamic> json) {
-    href = json['href'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['href'] = this.href;
-    return data;
-  }
+  factory Collection.fromJson(Map<String, dynamic> json) =>
+      _$CollectionFromJson(json);
+
+  Map<String, dynamic> toJson() => _$CollectionToJson(this);
 }
 
 String? parseField(String? field) {

@@ -72,7 +72,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   'My Awesome Shop',
                   style: Theme.of(context)
                       .textTheme
-                      .headline5!
+                      .headlineSmall!
                       .apply(color: Colors.blueGrey),
                 ),
               ),
@@ -109,12 +109,12 @@ class _MyHomePageState extends State<MyHomePage> {
                         product.name ?? 'Loading...',
                         style: Theme.of(context)
                             .textTheme
-                            .headline6!
+                            .titleLarge!
                             .apply(color: Colors.blueGrey),
                       ),
                       Text(
                         '\$' + (product.price ?? ''),
-                        style: Theme.of(context).textTheme.subtitle2,
+                        style: Theme.of(context).textTheme.titleSmall,
                       )
                     ],
                   );

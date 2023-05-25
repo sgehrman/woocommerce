@@ -1,36 +1,12 @@
-/*
- * BSD 3-Clause License
+import 'package:json_annotation/json_annotation.dart';
 
-    Copyright (c) 2020, RAY OKAAH - MailTo: ray@flutterengineer.com, Twitter: Rayscode
-    All rights reserved.
+part 'shipping_method.g.dart';
 
-    Redistribution and use in source and binary forms, with or without
-    modification, are permitted provided that the following conditions are met:
-
-    1. Redistributions of source code must retain the above copyright notice, this
-    list of conditions and the following disclaimer.
-
-    2. Redistributions in binary form must reproduce the above copyright notice,
-    this list of conditions and the following disclaimer in the documentation
-    and/or other materials provided with the distribution.
-
-    3. Neither the name of the copyright holder nor the names of its
-    contributors may be used to endorse or promote products derived from
-    this software without specific prior written permission.
-
-    THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS IS"
-    AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
-    IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
-    DISCLAIMED. IN NO EVENT SHALL THE COPYRIGHT HOLDER OR CONTRIBUTORS BE LIABLE
-    FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
-    DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
-    SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
-    CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
-    OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
-    OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
-
- */
-
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethod {
   String? id;
   String? title;
@@ -38,113 +14,108 @@ class WooShippingMethod {
 
   WooShippingMethod({this.id, this.title, this.description});
 
-  WooShippingMethod.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    description = json['description'];
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['description'] = this.description;
-    return data;
-  }
-
   @override
-  toString() => this.toJson().toString();
+  String toString() {
+    return toJson().toString();
+  }
+
+  factory WooShippingMethod.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodLocations {
   String? code;
   String? type;
 
   WooShippingMethodLocations({this.code, this.type});
 
-  WooShippingMethodLocations.fromJson(Map<String, dynamic> json) {
-    code = json['code'];
-    type = json['type'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['code'] = this.code;
-    data['type'] = this.type;
-    return data;
-  }
+  factory WooShippingMethodLocations.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodLocationsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodLocationsToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodMethods {
   List<WooShippingMethodFreeShipping>? freeShipping;
   List<WooShippingMethodFlatRate>? flatRate;
   List<WooShippingMethodLocalPickup>? localPickup;
 
-  WooShippingMethodMethods(
-      {this.freeShipping, this.flatRate, this.localPickup});
+  WooShippingMethodMethods({
+    this.freeShipping,
+    this.flatRate,
+    this.localPickup,
+  });
 
-  WooShippingMethodMethods.fromJson(Map<String, dynamic> json) {
-    if (json['free_shipping'] != null) {
-      freeShipping = [];
-      json['free_shipping'].forEach((v) {
-        freeShipping!.add(new WooShippingMethodFreeShipping.fromJson(v));
-      });
-    }
-    if (json['flat_rate'] != null) {
-      flatRate = [];
-      json['flat_rate'].forEach((v) {
-        flatRate!.add(new WooShippingMethodFlatRate.fromJson(v));
-      });
-    }
-    if (json['local_pickup'] != null) {
-      localPickup = [];
-      json['local_pickup'].forEach((v) {
-        localPickup!.add(new WooShippingMethodLocalPickup.fromJson(v));
-      });
-    }
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.freeShipping != null) {
-      data['free_shipping'] = this.freeShipping!.map((v) => v.toJson()).toList();
-    }
-    if (this.flatRate != null) {
-      data['flat_rate'] = this.flatRate!.map((v) => v.toJson()).toList();
-    }
-    if (this.localPickup != null) {
-      data['local_pickup'] = this.localPickup!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  factory WooShippingMethodMethods.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodMethodsFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodMethodsToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodFreeShipping {
   int? id;
   String? title;
   String? methodId;
   String? cost;
 
-  WooShippingMethodFreeShipping(
-      {this.id, this.title, this.methodId, this.cost});
+  WooShippingMethodFreeShipping({
+    this.id,
+    this.title,
+    this.methodId,
+    this.cost,
+  });
 
-  WooShippingMethodFreeShipping.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    methodId = json['method_id'];
-    cost = json['cost'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['method_id'] = this.methodId;
-    data['cost'] = this.cost;
-    return data;
-  }
+  factory WooShippingMethodFreeShipping.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodFreeShippingFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodFreeShippingToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodFlatRate {
   int? id;
   String? title;
@@ -155,68 +126,62 @@ class WooShippingMethodFlatRate {
   bool? taxable;
   List<WooShippingMethodShippingClasses>? shippingClasses;
 
-  WooShippingMethodFlatRate(
-      {this.id,
-      this.title,
-      this.methodId,
-      this.cost,
-      this.classCost,
-      this.calculationType,
-      this.taxable,
-      this.shippingClasses});
+  WooShippingMethodFlatRate({
+    this.id,
+    this.title,
+    this.methodId,
+    this.cost,
+    this.classCost,
+    this.calculationType,
+    this.taxable,
+    this.shippingClasses,
+  });
 
-  WooShippingMethodFlatRate.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    methodId = json['method_id'];
-    cost = json['cost'];
-    classCost = json['class_cost'];
-    calculationType = json['calculation_type'];
-    taxable = json['taxable'];
-    if (json['shipping_classes'] != null) {
-      shippingClasses = [];
-      json['shipping_classes'].forEach((v) {
-        shippingClasses!.add(new WooShippingMethodShippingClasses.fromJson(v));
-      });
-    }
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['method_id'] = this.methodId;
-    data['cost'] = this.cost;
-    data['class_cost'] = this.classCost;
-    data['calculation_type'] = this.calculationType;
-    data['taxable'] = this.taxable;
-    if (this.shippingClasses != null) {
-      data['shipping_classes'] =
-          this.shippingClasses!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
+  factory WooShippingMethodFlatRate.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodFlatRateFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodFlatRateToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodShippingClasses {
   String? id;
   String? cost;
 
   WooShippingMethodShippingClasses({this.id, this.cost});
 
-  WooShippingMethodShippingClasses.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    cost = json['cost'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['cost'] = this.cost;
-    return data;
-  }
+  factory WooShippingMethodShippingClasses.fromJson(
+    Map<String, dynamic> json,
+  ) =>
+      _$WooShippingMethodShippingClassesFromJson(json);
+
+  Map<String, dynamic> toJson() =>
+      _$WooShippingMethodShippingClassesToJson(this);
 }
 
+// =========================================================
+
+@JsonSerializable(
+  explicitToJson: true,
+  includeIfNull: false,
+  fieldRename: FieldRename.snake,
+)
 class WooShippingMethodLocalPickup {
   int? id;
   String? title;
@@ -224,24 +189,21 @@ class WooShippingMethodLocalPickup {
   bool? taxable;
   String? cost;
 
-  WooShippingMethodLocalPickup(
-      {this.id, this.title, this.methodId, this.taxable, this.cost});
+  WooShippingMethodLocalPickup({
+    this.id,
+    this.title,
+    this.methodId,
+    this.taxable,
+    this.cost,
+  });
 
-  WooShippingMethodLocalPickup.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    title = json['title'];
-    methodId = json['method_id'];
-    taxable = json['taxable'];
-    cost = json['cost'];
+  @override
+  String toString() {
+    return toJson().toString();
   }
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this.id;
-    data['title'] = this.title;
-    data['method_id'] = this.methodId;
-    data['taxable'] = this.taxable;
-    data['cost'] = this.cost;
-    return data;
-  }
+  factory WooShippingMethodLocalPickup.fromJson(Map<String, dynamic> json) =>
+      _$WooShippingMethodLocalPickupFromJson(json);
+
+  Map<String, dynamic> toJson() => _$WooShippingMethodLocalPickupToJson(this);
 }

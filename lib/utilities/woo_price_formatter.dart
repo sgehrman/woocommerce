@@ -1,4 +1,3 @@
-
 import 'dart:math';
 
 class WooPriceFormatter {
@@ -8,6 +7,7 @@ class WooPriceFormatter {
       final currencyMinor = pow(10, minorUnit);
 
       final totalPriceDouble = price / currencyMinor;
+
       return totalPriceDouble.toStringAsFixed(minorUnit);
     } else {
       return null;
