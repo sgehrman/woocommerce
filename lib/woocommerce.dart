@@ -1080,11 +1080,13 @@ class WooCommerce {
       data['variations'] = variations;
     }
     await getAuthTokenFromDb();
-    final wcstoreapi = await fetchXWCStoreAPINonce();
-    final authHeader = 'Bearer ${_authToken!}';
+    // final wcstoreapi = await fetchXWCStoreAPINonce();
+    // final authHeader = 'Bearer ${_authToken!}';
+    final authHeader = 'Basic $consumerKey:$consumerSecret';
+
     final Map<String, String> urlHeader = {
       'Authorization': authHeader,
-      if (wcstoreapi.isNotEmpty) 'X-WC-Store-API-Nonce': wcstoreapi,
+      // if (wcstoreapi.isNotEmpty) 'X-WC-Store-API-Nonce': wcstoreapi,
     };
     final response = await http.post(
       Uri.parse('$baseUrl${URL_STORE_API_PATH}cart/add-item'),
