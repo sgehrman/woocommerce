@@ -123,27 +123,19 @@ Map<String, dynamic> _$WooCartImagesToJson(WooCartImages instance) {
 
 WooCartTotals _$WooCartTotalsFromJson(Map<String, dynamic> json) =>
     WooCartTotals(
-      totalItems: json['total_items'] as int?,
-      totalPrice: json['total_price'] as int?,
-      currencyCode: json['currency_code'] as String?,
-      currencyMinorUnit: json['currency_minor_unit'] as int?,
+      totalItems: json['total_items'] as String? ?? '0',
+      totalPrice: json['total_price'] as String? ?? '0',
+      currencyCode: json['currency_code'] as String? ?? '',
+      currencyMinorUnit: json['currency_minor_unit'] as int? ?? 0,
     );
 
-Map<String, dynamic> _$WooCartTotalsToJson(WooCartTotals instance) {
-  final val = <String, dynamic>{};
-
-  void writeNotNull(String key, dynamic value) {
-    if (value != null) {
-      val[key] = value;
-    }
-  }
-
-  writeNotNull('total_items', instance.totalItems);
-  writeNotNull('total_price', instance.totalPrice);
-  writeNotNull('currency_code', instance.currencyCode);
-  writeNotNull('currency_minor_unit', instance.currencyMinorUnit);
-  return val;
-}
+Map<String, dynamic> _$WooCartTotalsToJson(WooCartTotals instance) =>
+    <String, dynamic>{
+      'total_items': instance.totalItems,
+      'total_price': instance.totalPrice,
+      'currency_code': instance.currencyCode,
+      'currency_minor_unit': instance.currencyMinorUnit,
+    };
 
 WooCartItemAttributes _$WooCartItemAttributesFromJson(
         Map<String, dynamic> json) =>

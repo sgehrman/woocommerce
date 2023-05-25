@@ -133,20 +133,22 @@ class WooCartImages {
   fieldRename: FieldRename.snake,
 )
 class WooCartTotals {
-  int? totalItems;
-  int? totalPrice;
-  String? currencyCode;
-  int? currencyMinorUnit;
-
   WooCartTotals({
-    this.totalItems,
-    this.totalPrice,
-    this.currencyCode,
-    this.currencyMinorUnit,
+    this.totalItems = '0',
+    this.totalPrice = '0',
+    this.currencyCode = '',
+    this.currencyMinorUnit = 0,
   });
 
-  String? get displayTotalPrice =>
-      WooPriceFormatter.displayPrice(totalPrice, currencyMinorUnit);
+  final String totalItems;
+  final String totalPrice;
+  final String currencyCode;
+  final int currencyMinorUnit;
+
+  String? get displayTotalPrice => WooPriceFormatter.displayPrice(
+        int.tryParse(totalPrice),
+        currencyMinorUnit,
+      );
 
   @override
   String toString() {
